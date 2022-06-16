@@ -2,6 +2,7 @@ import streamlit
 import pandas as pd
 import snowflake.connector
 
+
 streamlit.title("My Parents Healthy New Diner")
 
 streamlit.header('Breakfast Favorites')
@@ -20,4 +21,10 @@ fruits_to_show = my_fruit_list.loc[fruits_selected]
 
 streamlit.dataframe(fruits_to_show)
 
+my_cnx = snowflake.connector.connect(**streamlit.secrets["snowflake"])
+my_cur = my_cnx.cursor()
+my_cur.execute("SELECT CURRENT_USER(), CURRENT_ACCOUNT(), CURRENT_REGION()")
+my_data_row = my_cur.fetchone()
 
+streamlit.text("Hello from Snowflake:")
+streamlit.tect(my_data_row)
